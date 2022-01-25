@@ -3,6 +3,7 @@ package com.example.handler
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.widget.TextView
@@ -95,6 +96,7 @@ internal class MyThread {
     fun putMsg(handler: Handler) {
         Thread {
             try {
+                Looper.prepare()
                 Thread.sleep(5000)
                 val message = Message()
                 message.what = HANDLER_MESSAGE //标志是哪个线程传数据
@@ -102,6 +104,7 @@ internal class MyThread {
                 bundle.putSerializable(MESSAGE_KEY, MyBean(Book("茹茹")))
                 message.data = bundle //bundle传值，耗时，效率低
                 handler.sendMessage(message) //发送message信息
+                Looper.loop()
                 //message有四个传值方法，
                 //两个传int整型数据的方法message.arg1，message.arg2
                 //一个传对象数据的方法message.obj
